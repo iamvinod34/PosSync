@@ -125,7 +125,7 @@ namespace PosSync.App_Code
         public bool Status { get; private set; }
         public object TotalAmount { get; private set; }
         public object LastUpdateTime { get; private set; }
-        public string Password { get; private set; }
+        public string Password { get;  set; }
 
 
 
@@ -1535,18 +1535,21 @@ namespace PosSync.App_Code
                 spCity.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spCity.Value = City;
 
+                SqlCeParameter spPassword = new SqlCeParameter();
+                spPassword.ParameterName = "@Password";
+                spPassword.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPassword.Value = Password;
 
-               
 
-                string S = "INSERT INTO tbl_Customer(CustomerID,Name1,Name2,Address1,Address2,Address3,POBox,Phone,Fax,Email,City,Region,Country,CreditLimit,CustInt1,CustInt2,CustInt3,CustText1,CustText2,CustText3,CustType,TotalDue) " +
-                    " VALUES(@CustomerID,@Name1,@Name2,@Address1,@Address2,@Address3,@POBox,@Phone,@Fax,@Email,@City,@Region,@Country,@CreditLimit,@CustInt1,@CustInt2,@CustInt3,@CustText1,@CustText2,@CustText3,@CustType,@TotalDue);";
+                string S = "INSERT INTO tbl_Customer(CustomerID,Name1,Name2,Address1,Address2,Address3,POBox,Phone,Fax,Email,City,Region,Country,CreditLimit,CustInt1,CustInt2,CustInt3,CustText1,CustText2,CustText3,CustType,TotalDue,Password) " +
+                    " VALUES(@CustomerID,@Name1,@Name2,@Address1,@Address2,@Address3,@POBox,@Phone,@Fax,@Email,@City,@Region,@Country,@CreditLimit,@CustInt1,@CustInt2,@CustInt3,@CustText1,@CustText2,@CustText3,@CustType,@TotalDue,@Password);";
 
                 LocalDataCon.CmdString = S;
                 LocalDataCon.CmdType = CommandType.Text;
                 LocalDataCon.ConString = LocalConn();
 
                 LocalDataCon.InsertRecord(spCustomerID, spName1, spName2, spAddress1, spAddress2, spAddress3, spPOBox, spPhone, spFax, spEmail, spCity, spRegion, spCountry, spCreditLimit, spCustInt1,
-                spCustInt2, spCustInt3, spCustText1, spCustText2, spCustText3, spCustType, spTotalDue);
+                spCustInt2, spCustInt3, spCustText1, spCustText2, spCustText3, spCustType, spTotalDue,spPassword);
             }
             catch (Exception ex)
             {
@@ -1741,7 +1744,7 @@ namespace PosSync.App_Code
                 LocalDataCon.CmdType = CommandType.Text;
                 LocalDataCon.ConString = LocalConn();
 
-                LocalDataCon.InsertRecord(spLocationID, spEAN13, spMaterialID, spUOM, spPrice);
+                LocalDataCon.InsertRecord(spLocationID, spEAN13, spMaterialID, spUOM, spPrice,spCustType);
             }
             catch (Exception ex)
             {
@@ -2090,7 +2093,7 @@ namespace PosSync.App_Code
                 LocalDataCon.CmdType = CommandType.Text;
                 LocalDataCon.ConString = LocalConn();
 
-                LocalDataCon.InsertRecord(spEAN13, spMaterialID, spUOM, spPrice);
+                LocalDataCon.InsertRecord(spEAN13, spMaterialID, spUOM, spPrice,spCustType);
             }
             catch (Exception ex)
             {
@@ -2561,13 +2564,13 @@ namespace PosSync.App_Code
                 spCountryName.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spCountryName.Value = CountryName;
 
-                string S = "INSERT INTO tbl_Country(CountryID,CountryName)VALUES(@CountryID,@CountryName);";
+                string S = "INSERT INTO tbl_Country(CountryName)VALUES(@CountryName);";
 
                 LocalDataCon.CmdString = S;
                 LocalDataCon.CmdType = CommandType.Text;
                 LocalDataCon.ConString = LocalConn();
 
-                LocalDataCon.InsertRecord(spCountryID, spCountryName);
+                LocalDataCon.InsertRecord( spCountryName);
             }
             catch (Exception ex)
             {
@@ -2590,13 +2593,13 @@ namespace PosSync.App_Code
                 spRegionName.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spRegionName.Value = RegionName;
 
-                string S = "INSERT INTO tbl_Region(RegionID,RegionName)VALUES(@RegionID,@RegionName);";
+                string S = "INSERT INTO tbl_Region(RegionName)VALUES(@RegionName);";
 
                 LocalDataCon.CmdString = S;
                 LocalDataCon.CmdType = CommandType.Text;
                 LocalDataCon.ConString = LocalConn();
 
-                LocalDataCon.InsertRecord(spRegionID, spRegionName);
+                LocalDataCon.InsertRecord( spRegionName);
             }
             catch (Exception ex)
             {
@@ -2619,13 +2622,13 @@ namespace PosSync.App_Code
                 spCustType.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spCustType.Value = CustType;
 
-                string S = "INSERT INTO tbl_CustType(ID,CustTpe)VALUES(@ID,@CustType);";
+                string S = "INSERT INTO tbl_CustType(CustType)VALUES(@CustType);";
 
                 LocalDataCon.CmdString = S;
                 LocalDataCon.CmdType = CommandType.Text;
                 LocalDataCon.ConString = LocalConn();
 
-                LocalDataCon.InsertRecord(spId, spCustType);
+                LocalDataCon.InsertRecord( spCustType);
             }
             catch (Exception ex)
             {

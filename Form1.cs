@@ -4107,6 +4107,8 @@ namespace PosSync
         {
             try
             {
+                //System.Threading.Thread.Sleep(5000);
+
                 FileInfo fileinfo = new FileInfo(AppDomain.CurrentDomain.BaseDirectory+ "AllMaterData.xml");
                 if (fileinfo.Exists)
                 {
@@ -4198,6 +4200,9 @@ namespace PosSync
                     LocalUOM();
                     LocalVendor();
                     LocalBOM();
+                    LocalCountry();
+                    LocalRegion();
+                    LocalCustType();
                     LocalCountry();
                     LocalRegion();
 
@@ -4508,6 +4513,7 @@ namespace PosSync
                             AllMaterTable.CustText3 = dtserver.Rows[i]["CustText3"].ToString();
                             AllMaterTable.CustType = dtserver.Rows[i]["CustType"].ToString();
                             AllMaterTable.TotalDue = dtserver.Rows[i]["TotalDue"].ToString();
+                            AllMaterTable.Password= dtserver.Rows[i]["Password"].ToString();
                             AllMaterTable.InsertLocalCustomter();
                             RunningCount = i;
                             updatetworows();
