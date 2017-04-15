@@ -173,6 +173,8 @@ namespace PosSync
             try
             {
                 AllMaterTable.MainCustomerTable();
+                AllMaterTable.LocationID = LocationID;
+                AllMaterTable.Insert_Local_PI_TimeTable();
             }
             catch (Exception ex)
             {
@@ -529,6 +531,32 @@ namespace PosSync
                     objInvcDtls.Produc_Comm = dt_invcdtls.Rows[i]["Produc_Comm"].ToString();
                     objInvcDtls.TaxAmount = Convert.ToDecimal(dt_invcdtls.Rows[i]["Tax"].ToString());
                     objInvcDtls.CostAmount = Convert.ToDecimal(dt_invcdtls.Rows[i]["CostAmount"].ToString());
+                    if (!string.IsNullOrEmpty(dt_invcdtls.Rows[i]["OrderUserName"].ToString()))
+                    {
+                        objInvcDtls.OrderUsername = dt_invcdtls.Rows[i]["OrderUserName"].ToString();
+                    }
+                    else
+                    {
+                        objInvcDtls.OrderUsername = "0";
+                    }
+
+                    if (!string.IsNullOrEmpty(dt_invcdtls.Rows[i]["OrderTransQty"].ToString()))
+                    {
+                        objInvcDtls.OrderTransQty = dt_invcdtls.Rows[i]["OrderTransQty"].ToString();
+                    }
+                    else
+                    {
+                        objInvcDtls.OrderTransQty = "0";
+                    }
+
+                    if (!string.IsNullOrEmpty(dt_invcdtls.Rows[i]["OrderBaseQty"].ToString()))
+                    {
+                        objInvcDtls.OrderBaseQty = dt_invcdtls.Rows[i]["OrderBaseQty"].ToString();
+                    }
+                    else
+                    {
+                        objInvcDtls.OrderBaseQty = "0";
+                    }
 
                     objInvcDtls.Datacon = ConfigurationManager.ConnectionStrings["ConnectionStringSvr"].ConnectionString;
 
@@ -4153,7 +4181,7 @@ namespace PosSync
                             LocalCustType();
                             LocalCountry();
                             LocalRegion();
-
+                            LocalPhoneCode();
                             TableName = "Completed";
                             AllMasterCount = 0M;
                             RunningCount = 0M;
@@ -4205,7 +4233,7 @@ namespace PosSync
                     LocalCustType();
                     LocalCountry();
                     LocalRegion();
-
+                    LocalPhoneCode();
                     TableName = "Completed";
                     AllMasterCount = 0M;
                     RunningCount = 0M;
@@ -4308,6 +4336,21 @@ namespace PosSync
             try
             {
                 dtserver = AllMaterTable.ServerCity();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dtserver;
+
+        }
+
+        public DataTable ServerPhoneCode()
+        {
+            DataTable dtserver = null;
+            try
+            {
+                dtserver = AllMaterTable.ServerPhoneCode();
             }
             catch (Exception ex)
             {
@@ -5479,6 +5522,57 @@ namespace PosSync
             {
 
             }
+        }
+
+        public void LocalPhoneCode()
+        {
+
+            try
+            {
+                DataTable dtlocal = AllMaterTable.LocalPhoneCode();
+
+                if (dtlocal.Rows.Count == 0)
+                {
+                    DataTable dtserver = ServerPhoneCode();
+
+                    if (dtserver.Rows.Count > 0)
+                    {
+                        TableName = "Phone Code";
+                        AllMasterCount = dtserver.Rows.Count;
+                        updatetworows();
+                        for (int i = 0; i < dtserver.Rows.Count; i++)
+                        {
+                            AllMaterTable.PhoneCode = dtserver.Rows[i]["PhoneCode"].ToString();
+                            AllMaterTable.PhoneDigit = dtserver.Rows[i]["PhoneDigits"].ToString();
+                            AllMaterTable.PhoneDescription = dtserver.Rows[i]["PhoneDescription"].ToString();
+                            AllMaterTable.InsertLocalPhoneCode();
+                            RunningCount = i;
+                            updatetworows();
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        public DataTable ServerCity()
+        {
+            DataTable dtserver = null;
+            try
+            {
+                dtserver = AllMaterTable.ServerCity();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return dtserver;
+
         }
 
         #endregion

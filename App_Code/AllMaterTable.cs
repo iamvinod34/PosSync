@@ -127,6 +127,14 @@ namespace PosSync.App_Code
         public object LastUpdateTime { get; private set; }
         public string Password { get;  set; }
 
+        public string PI_KeyWord { get; set; }
+        public string PI_Description { get; set; }
+        public string Days { get; set; }
+        public string PI_DateTime { get; set; }
+        public string PhoneDigit { get; internal set; }
+        public string PhoneCode { get; internal set; }
+        public string PhoneDescription { get; internal set; }
+
 
 
 
@@ -327,12 +335,52 @@ namespace PosSync.App_Code
             return local;
         }
 
+        public DataTable LocalPhoneCode()
+        {
+            DataTable local = null;
+            try
+            {
+                string S = "SELECT * FROM tbl_PhoneCode";
+
+                LocalDataCon.CmdString = S;
+                LocalDataCon.CmdType = CommandType.Text;
+                LocalDataCon.ConString = LocalConn();
+
+                local = LocalDataCon.LoadDataSet().Tables[0];
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return local;
+        }
+
         public DataTable ServerCity()
         {
             DataTable server = null;
             try
             {
                 string S = "SELECT * FROM TBL_CITY";
+
+                ServerMyDataConnection.CmdString = S;
+                ServerMyDataConnection.CmdType = CommandType.Text;
+                ServerMyDataConnection.ConString = ServerConn();
+
+                server = ServerMyDataConnection.LoadDataSet().Tables[0];
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return server;
+        }
+
+        public DataTable ServerPhoneCode()
+        {
+            DataTable server = null;
+            try
+            {
+                string S = "SELECT * FROM tbl_PhoneCode";
 
                 ServerMyDataConnection.CmdString = S;
                 ServerMyDataConnection.CmdType = CommandType.Text;
@@ -1247,6 +1295,42 @@ namespace PosSync.App_Code
                 LocalDataCon.ConString = LocalConn();
 
                 LocalDataCon.InsertRecord(spCityID, spCityName);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return local;
+        }
+
+        public string InsertLocalPhoneCode()
+        {
+            string local = null;
+            try
+            {
+                SqlCeParameter spPhoneCode = new SqlCeParameter();
+                spPhoneCode.ParameterName = "@PhoneCode";
+                spPhoneCode.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPhoneCode.Value = PhoneCode;
+
+                SqlCeParameter spPhoneDigits = new SqlCeParameter();
+                spPhoneDigits.ParameterName = "@PhoneDigits";
+                spPhoneDigits.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPhoneDigits.Value = PhoneDigit;
+
+                SqlCeParameter spPhoneDescription = new SqlCeParameter();
+                spPhoneDescription.ParameterName = "@PhoneDescription";
+                spPhoneDescription.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPhoneDescription.Value = PhoneDescription;
+
+
+                string S = "INSERT INTO tbl_PhoneCode (PhoneCode,PhoneDigits,PhoneDescription) VALUES(@PhoneCode,@PhoneDigits,@PhoneDescription) ";
+
+                LocalDataCon.CmdString = S;
+                LocalDataCon.CmdType = CommandType.Text;
+                LocalDataCon.ConString = LocalConn();
+
+                LocalDataCon.InsertRecord(spPhoneCode,spPhoneDigits,spPhoneDescription);
             }
             catch (Exception ex)
             {
@@ -3111,6 +3195,307 @@ namespace PosSync.App_Code
                 throw;
             }
             return dtMain;
+        }
+
+        public DataTable Get_Select_Local_PI_TimeTable()
+        {
+            DataTable result = null;
+            try
+            {
+                string s = "select * from tbl_PI_TimeTable where ConRead='False' and LocationID=@LocationID";
+
+                SqlCeParameter spLocationID = new SqlCeParameter();
+                spLocationID.ParameterName = "@LocationID";
+                spLocationID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spLocationID.Value = LocationID;
+
+                LocalDataCon.ConString = LocalConn();
+                LocalDataCon.CmdType = CommandType.Text;
+                LocalDataCon.CmdString = s;
+
+                result = LocalDataCon.LoadDataSet(spLocationID).Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return result;
+        }
+
+        public DataTable Get_Select_Server_PI_TimeTable()
+        {
+            DataTable result = null;
+            try
+            {
+                string s = "select * from tbl_PI_TimeTable where ConRead='False' and LocationID=@LocationID";
+
+                SqlParameter spLocationID = new SqlParameter();
+                spLocationID.ParameterName = "@LocationID";
+                spLocationID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spLocationID.Value = LocationID;
+
+                ServerMyDataConnection.ConString = ServerConn();
+                ServerMyDataConnection.CmdType = CommandType.Text;
+                ServerMyDataConnection.CmdString = s;
+
+                result = ServerMyDataConnection.LoadDataSet(spLocationID).Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return result;
+        }
+
+        public void Insert_Local_PI_TimeTable()
+        {
+            try
+            {
+                DataTable Get_Select_Local_PI_TimeTable = this.Get_Select_Local_PI_TimeTable();
+                DataTable Get_Select_Server_PI_TimeTable = this.Get_Select_Server_PI_TimeTable();
+                if(Get_Select_Local_PI_TimeTable!=null)
+                {
+                    if (Get_Select_Local_PI_TimeTable.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < Get_Select_Local_PI_TimeTable.Rows.Count; i++)
+                        {
+                            this.PI_KeyWord = Get_Select_Local_PI_TimeTable.Rows[i]["PI_KeyWord"].ToString();
+                            this.PI_Description = Get_Select_Local_PI_TimeTable.Rows[i]["PI_Description"].ToString();
+                            this.Days = Get_Select_Local_PI_TimeTable.Rows[i]["Days"].ToString();
+                            this.PI_DateTime = Get_Select_Local_PI_TimeTable.Rows[i]["PI_DateTime"].ToString();
+                            this.LocationID = Get_Select_Local_PI_TimeTable.Rows[i]["LocationID"].ToString();
+                            this.StorageID = Get_Select_Local_PI_TimeTable.Rows[i]["StorageID"].ToString();
+                            this.TerminalID = Get_Select_Local_PI_TimeTable.Rows[i]["TerminalID"].ToString();
+                            this.Insert_Update_Server_PI_Time_DataTable();
+
+                        }
+                    }
+                }
+                if(Get_Select_Server_PI_TimeTable!=null)
+                {
+                    if(Get_Select_Server_PI_TimeTable.Rows.Count>0)
+                    {
+                        //insert or update local table
+                        for (int i = 0; i < Get_Select_Local_PI_TimeTable.Rows.Count; i++)
+                        {
+                            this.PI_KeyWord = Get_Select_Server_PI_TimeTable.Rows[i]["PI_KeyWord"].ToString();
+                            this.PI_Description = Get_Select_Server_PI_TimeTable.Rows[i]["PI_Description"].ToString();
+                            this.Days = Get_Select_Server_PI_TimeTable.Rows[i]["Days"].ToString();
+                            this.PI_DateTime = Get_Select_Server_PI_TimeTable.Rows[i]["PI_DateTime"].ToString();
+                            this.LocationID = Get_Select_Server_PI_TimeTable.Rows[i]["LocationID"].ToString();
+                            this.StorageID = Get_Select_Server_PI_TimeTable.Rows[i]["StorageID"].ToString();
+                            this.TerminalID = Get_Select_Server_PI_TimeTable.Rows[i]["TerminalID"].ToString();
+                            this.Insert_Update_Local_PI_Time_DataTable();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public void Insert_Update_Local_PI_Time_DataTable()
+        {
+            try
+            {
+                SqlCeParameter spPIKeyWord = new SqlCeParameter();
+                spPIKeyWord.ParameterName = "@PIKeyWord";
+                spPIKeyWord.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPIKeyWord.Value = this.PI_KeyWord;
+
+                SqlCeParameter spPIDescription = new SqlCeParameter();
+                spPIDescription.ParameterName = "@PIDescription";
+                spPIDescription.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPIDescription.Value = this.PI_Description;
+
+                SqlCeParameter spDays = new SqlCeParameter();
+                spDays.ParameterName = "@Days";
+                spDays.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spDays.Value = this.Days;
+
+                SqlCeParameter spPIDateTime = new SqlCeParameter();
+                spPIDateTime.ParameterName = "@PIDateTime";
+                spPIDateTime.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPIDateTime.Value = this.PI_DateTime;
+
+                SqlCeParameter spLocationID = new SqlCeParameter();
+                spLocationID.ParameterName = "@LocationID";
+                spLocationID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spLocationID.Value = LocationID;
+
+                SqlCeParameter spStorageID = new SqlCeParameter();
+                spStorageID.ParameterName = "@StorageID";
+                spStorageID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spStorageID.Value = StorageID;
+
+                SqlCeParameter spTerminalID = new SqlCeParameter();
+                spTerminalID.ParameterName = "@TerminalID ";
+                spTerminalID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spTerminalID.Value = TerminalID;
+
+                DataTable Get_By_Local_PI_TimeTable = this.Get_By_Local_PI_TimeTable();
+                string s=string.Empty;
+
+                if(Get_By_Local_PI_TimeTable!=null)
+                {
+                    if (Get_By_Local_PI_TimeTable.Rows.Count > 0)
+                    {
+                        s = "INSERT INTO tbl_PI_TimeTable (PI_KeyWord,PI_Description,Days,PI_DateTime,LocationID,StorageID,TerminalID,ConRead) VALUES"+
+                            "(@PIKeyWord,@PIDescription,@Days,@PIDateTime,@LocationID,@StorageID,@TerminalID,'True')";
+                    }
+                    else
+                    {
+                        s = "UPDATE TBL_PI_TIMETABLE SET PI_Description=@PIDescription,Days=@Days,PI_DateTime=@PIDateTime,StorageID=@StorageID,TerminalID=@TerminalID,ConRead='True' where PI_KeyWord=@PIKeyWord,LocationID=@LocationID";
+                            
+                    }
+                }
+                LocalDataCon.ConString = LocalConn();
+                LocalDataCon.CmdType = CommandType.Text;
+                LocalDataCon.CmdString = s;
+
+                LocalDataCon.InsertRecord(spPIKeyWord, spPIDescription, spDays, spPIDateTime, spLocationID, spStorageID, spTerminalID);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public void Insert_Update_Server_PI_Time_DataTable()
+        {
+            try
+            {
+                SqlParameter spPIKeyWord = new SqlParameter();
+                spPIKeyWord.ParameterName = "@PIKeyWord";
+                spPIKeyWord.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPIKeyWord.Value = this.PI_KeyWord;
+
+                SqlParameter spPIDescription = new SqlParameter();
+                spPIDescription.ParameterName = "@PIDescription";
+                spPIDescription.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPIDescription.Value = this.PI_Description;
+
+                SqlParameter spDays = new SqlParameter();
+                spDays.ParameterName = "@Days";
+                spDays.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spDays.Value = this.Days;
+
+                SqlParameter spPIDateTime = new SqlParameter();
+                spPIDateTime.ParameterName = "@PIDateTime";
+                spPIDateTime.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPIDateTime.Value = this.PI_DateTime;
+
+                SqlParameter spLocationID = new SqlParameter();
+                spLocationID.ParameterName = "@LocationID";
+                spLocationID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spLocationID.Value = LocationID;
+
+                SqlParameter spStorageID = new SqlParameter();
+                spStorageID.ParameterName = "@StorageID";
+                spStorageID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spStorageID.Value = StorageID;
+
+                SqlParameter spTerminalID = new SqlParameter();
+                spTerminalID.ParameterName = "@TerminalID ";
+                spTerminalID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spTerminalID.Value = TerminalID;
+
+                DataTable Get_By_Local_PI_TimeTable = this.Get_By_Server_PI_TimeTable();
+                string s = string.Empty;
+
+                if (Get_By_Local_PI_TimeTable != null)
+                {
+                    if (Get_By_Local_PI_TimeTable.Rows.Count > 0)
+                    {
+                        s = "INSERT INTO tbl_PI_TimeTable (PI_KeyWord,PI_Description,Days,PI_DateTime,LocationID,StorageID,TerminalID,ConRead) VALUES" +
+                            "(@PIKeyWord,@PIDescription,@Days,@PIDateTime,@LocationID,@StorageID,@TerminalID,'True')";
+                    }
+                    else
+                    {
+                        s = "UPDATE TBL_PI_TIMETABLE SET PI_Description=@PIDescription,Days=@Days,PI_DateTime=@PIDateTime,StorageID=@StorageID,TerminalID=@TerminalID,ConRead='True' where PI_KeyWord=@PIKeyWord,LocationID=@LocationID";
+
+                    }
+                }
+                ServerMyDataConnection.ConString = ServerConn();
+                ServerMyDataConnection.CmdType = CommandType.Text;
+                ServerMyDataConnection.CmdString = s;
+
+                ServerMyDataConnection.InsertRecord(spPIKeyWord, spPIDescription, spDays, spPIDateTime, spLocationID, spStorageID, spTerminalID);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public DataTable Get_By_Local_PI_TimeTable()
+        {
+            DataTable dt = null;
+            try
+            {
+                SqlCeParameter spLocationID = new SqlCeParameter();
+                spLocationID.ParameterName = "@LocationID";
+                spLocationID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spLocationID.Value = LocationID;
+
+                SqlCeParameter spPIKeyWord = new SqlCeParameter();
+                spPIKeyWord.ParameterName = "@PIKeyWord";
+                spPIKeyWord.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPIKeyWord.Value = this.PI_KeyWord;
+
+                string s = "select * from tbl_PI_TimeTable where LocationID=@LocationId and PI_KeyWord=@PIKeyWord";
+
+                LocalDataCon.ConString = LocalConn();
+                LocalDataCon.CmdType = CommandType.Text;
+                LocalDataCon.CmdString = s;
+
+                dt = LocalDataCon.LoadDataSet(spLocationID,spPIKeyWord).Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return dt;
+        }
+
+        public DataTable Get_By_Server_PI_TimeTable()
+        {
+            DataTable dt = null;
+            try
+            {
+                SqlParameter spLocationID = new SqlParameter();
+                spLocationID.ParameterName = "@LocationID";
+                spLocationID.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spLocationID.Value = LocationID;
+
+                SqlParameter spPIKeyWord = new SqlParameter();
+                spPIKeyWord.ParameterName = "@PIKeyWord";
+                spPIKeyWord.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spPIKeyWord.Value = this.PI_KeyWord;
+
+                string s = "select * from tbl_PI_TimeTable where LocationID=@LocationId and PI_KeyWord=@PIKeyWord";
+
+                ServerMyDataConnection.ConString = ServerConn();
+                ServerMyDataConnection.CmdType = CommandType.Text;
+                ServerMyDataConnection.CmdString = s;
+
+                dt = ServerMyDataConnection.LoadDataSet(spLocationID, spPIKeyWord).Tables[0];
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return dt;
         }
 
         #endregion

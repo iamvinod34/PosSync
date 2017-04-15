@@ -63,6 +63,9 @@ namespace PosSync.App_Code
         public string Produc_Comm { get;  set; }
         public decimal TaxAmount { get;  set; }
         public decimal CostAmount { get;  set; }
+        public string OrderUsername { get; internal set; }
+        public string OrderTransQty { get; internal set; }
+        public string OrderBaseQty { get; internal set; }
 
         #endregion
 
@@ -231,19 +234,35 @@ namespace PosSync.App_Code
                 spCostAmount.SqlDbType = System.Data.SqlDbType.Decimal;
                 spCostAmount.Value = CostAmount;
 
+                SqlParameter spOrderUserName = new SqlParameter();
+                spOrderUserName.ParameterName = "@OrderUserName";
+                spOrderUserName.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spOrderUserName.Value = OrderUsername;
+
+                SqlParameter spOrderTransQty = new SqlParameter();
+                spOrderTransQty.ParameterName = "@OrderTransQty";
+                spOrderTransQty.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spOrderTransQty.Value = OrderTransQty;
+
+                SqlParameter spOrderBaseQty = new SqlParameter();
+                spOrderBaseQty.ParameterName = "@OrderBaseQty";
+                spOrderBaseQty.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spOrderBaseQty.Value = OrderBaseQty;
+
                 string InvoiceDtls = "INSERT INTO TBL_SALES_DETAIL(DOCUMENTID,COMPANYID,LOCATIONID,STORAGEID,TERMINALID,DOCUMENTDATE,POSTINGTYPE,CUSTOMERID,COUNTER,CATEGORYID,MATERIALID,POSTINGDATE,UOM," +
-                " TRANQTY,BASEQTY,CREDITQTY,COST,PRICE,DISCOUNTRATE,AMOUNT,CREDITAMOUNT,USERID,POSTKEY,ADDDATE,UPDDATE,RtnQty,OrderNo,Sales_CommAmount,Produc_CommAmount,TaxAmount,CostAmount)"+
+                " TRANQTY,BASEQTY,CREDITQTY,COST,PRICE,DISCOUNTRATE,AMOUNT,CREDITAMOUNT,USERID,POSTKEY,ADDDATE,UPDDATE,RtnQty,OrderNo,Sales_CommAmount,Produc_CommAmount,TaxAmount,CostAmount,OrderUserName,OrderTransQty,OrderBaseQty)"+
                 " VALUES(@DOCUMENTID,@COMPANYID,@LOCATIONID,@STORAGEID,@TERMINALID,@DOCUMENTDATE," +
                                     " @POSTINGTYPE,@CUSTOMERID,@COUNTER,@CATEGORYID,@MATERIALID,@POSTINGDATE,@UOM," +
                                     " @TRANQTY,@BASEQTY,@CREDITQTY,@COST,@PRICE,@DISCOUNTRATE,@AMOUNT,@CREDITAMOUNT,@USERID,@POSTKEY,@ADDDATE," +
-                                    " @UPDDATE,0,@OrderNo,@SalesComm,@ProducComm,@Tax,@CostAmount)";
+                                    " @UPDDATE,0,@OrderNo,@SalesComm,@ProducComm,@Tax,@CostAmount,@OrderUserName,@OrderTransQty,@OrderBaseQty)";
 
                 dcon.ConString = Datacon;
                 dcon.CmdType = CommandType.Text;
                 dcon.CmdString = InvoiceDtls;
 
                     dcon.InsertRecord(spDoc, spCompanyID, spLocationID, spStorageID, spTerminalID, spDoumentDate, spPostingType, spCustomerID, spCounter, spCategoryID, spMaterialID, spPostingDate,
-                        spUOM, spTranQty, spBaseQty, spCreditQty, spCost, spPrice, spDiscountRate, spAmount, spCreditAmount, spUserID, spPostKey, spAddDate, spUpdDate,spOrderNo,spSalesComm,spProducComm,spTax,spCostAmount);
+                        spUOM, spTranQty, spBaseQty, spCreditQty, spCost, spPrice, spDiscountRate, spAmount, spCreditAmount, spUserID, spPostKey, spAddDate, spUpdDate,spOrderNo,spSalesComm,spProducComm,spTax,spCostAmount,
+                        spOrderUserName, spOrderTransQty, spOrderBaseQty);
                     UpdateReadSalesdtls();
             }
             catch (Exception ex)
