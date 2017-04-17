@@ -4182,6 +4182,7 @@ namespace PosSync
                             LocalCountry();
                             LocalRegion();
                             LocalPhoneCode();
+
                             TableName = "Completed";
                             AllMasterCount = 0M;
                             RunningCount = 0M;
@@ -4234,6 +4235,8 @@ namespace PosSync
                     LocalCountry();
                     LocalRegion();
                     LocalPhoneCode();
+
+
                     TableName = "Completed";
                     AllMasterCount = 0M;
                     RunningCount = 0M;
@@ -5560,20 +5563,7 @@ namespace PosSync
 
         }
 
-        public DataTable ServerCity()
-        {
-            DataTable dtserver = null;
-            try
-            {
-                dtserver = AllMaterTable.ServerCity();
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return dtserver;
-
-        }
+        
 
         #endregion
     }

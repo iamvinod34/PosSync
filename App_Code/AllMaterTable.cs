@@ -1324,7 +1324,7 @@ namespace PosSync.App_Code
                 spPhoneDescription.Value = PhoneDescription;
 
 
-                string S = "INSERT INTO tbl_PhoneCode (PhoneCode,PhoneDigits,PhoneDescription) VALUES(@PhoneCode,@PhoneDigits,@PhoneDescription) ";
+                string S = "INSERT INTO tbl_PhoneCode (PhoneCode,PhoneDigits,PhoneDescription,ConRead) VALUES(@PhoneCode,@PhoneDigits,@PhoneDescription,'True') ";
 
                 LocalDataCon.CmdString = S;
                 LocalDataCon.CmdType = CommandType.Text;

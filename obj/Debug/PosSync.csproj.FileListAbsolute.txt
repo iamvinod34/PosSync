@@ -32,3 +32,15 @@ D:\PosSync\obj\Debug\PosSync.csproj.GenerateResource.Cache
 D:\PosSync\obj\Debug\PosSync.exe
 D:\PosSync\obj\Debug\PosSync.pdb
 D:\PosSync\obj\Debug\PosSync.csprojResolveAssemblyReference.cache
+D:\PosSync\PosSync\bin\Debug\PosSync.exe.config
+D:\PosSync\PosSync\obj\Debug\PosSync.exe
+D:\PosSync\PosSync\obj\Debug\PosSync.pdb
+D:\PosSync\PosSync\obj\Debug\PosSync.csprojResolveAssemblyReference.cache
+D:\PosSync\PosSync\obj\Debug\PosSync.Form1.resources
+D:\PosSync\PosSync\obj\Debug\PosSync.Properties.Resources.resources
+D:\PosSync\PosSync\obj\Debug\PosSync.csproj.GenerateResource.Cache
+D:\PosSync\PosSync\bin\Debug\ClientDb.sdf
+D:\PosSync\PosSync\bin\Debug\PosSync.exe
+D:\PosSync\PosSync\bin\Debug\PosSync.pdb
+D:\PosSync\PosSync\bin\Debug\System.Data.SqlServerCe.dll
+D:\PosSync\PosSync\bin\Debug\DBConnection.pdb
