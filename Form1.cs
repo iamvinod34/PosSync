@@ -4182,6 +4182,7 @@ namespace PosSync
                             LocalCountry();
                             LocalRegion();
                             LocalPhoneCode();
+
                             TableName = "Completed";
                             AllMasterCount = 0M;
                             RunningCount = 0M;
@@ -4234,6 +4235,8 @@ namespace PosSync
                     LocalCountry();
                     LocalRegion();
                     LocalPhoneCode();
+
+
                     TableName = "Completed";
                     AllMasterCount = 0M;
                     RunningCount = 0M;
@@ -5560,7 +5563,12 @@ namespace PosSync
 
         }
 
+<<<<<<< HEAD
       
+=======
+        
+
+>>>>>>> origin/master
         #endregion
     }
 }
