@@ -5560,21 +5560,7 @@ namespace PosSync
 
         }
 
-        public DataTable ServerCity()
-        {
-            DataTable dtserver = null;
-            try
-            {
-                dtserver = AllMaterTable.ServerCity();
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return dtserver;
-
-        }
-
+      
         #endregion
     }
 }
