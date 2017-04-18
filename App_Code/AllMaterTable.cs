@@ -134,6 +134,8 @@ namespace PosSync.App_Code
         public string PhoneDigit { get; internal set; }
         public string PhoneCode { get; internal set; }
         public string PhoneDescription { get; internal set; }
+        public string Gender { get; private set; }
+        public string DateOfBirth { get; private set; }
 
 
 
@@ -2880,6 +2882,16 @@ namespace PosSync.App_Code
                 spPassword.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spPassword.Value = Password;
 
+                SqlParameter spGender = new SqlParameter();
+                spGender.ParameterName = "@Gender";
+                spGender.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spGender.Value = Gender;
+
+                SqlParameter spDateOfBirth = new SqlParameter();
+                spDateOfBirth.ParameterName = "@DateOfBirth";
+                spDateOfBirth.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spDateOfBirth.Value = DateOfBirth;
+
                 bool Uresult = this.GetByIdServerCustomer();
                 string s;
 
@@ -2893,7 +2905,7 @@ namespace PosSync.App_Code
                     ServerMyDataConnection.CmdString = s;
 
                     ServerMyDataConnection.InsertRecord(spCustomerID, spFirstName, spLastName, spAddress, spPOBox, spPhone, spFax, spEmail,
-                    spCity, spRegion, spCountry, spCreditLimit, spCustType, spStatus,spPassword);
+                    spCity, spRegion, spCountry, spCreditLimit, spCustType, spStatus,spPassword,spGender,spDateOfBirth);
                 }
                 else
                 {
@@ -2904,7 +2916,7 @@ namespace PosSync.App_Code
                     ServerMyDataConnection.CmdString = s;
 
                     ServerMyDataConnection.InsertRecord(spCustomerID, spFirstName, spLastName, spAddress, spPOBox, spPhone, spFax, spEmail,
-                    spCity, spRegion, spCountry, spCreditLimit, spCustType, spStatus,spPassword);
+                    spCity, spRegion, spCountry, spCreditLimit, spCustType, spStatus,spPassword,spGender,spDateOfBirth);
                 }
 
                 
@@ -3115,10 +3127,10 @@ namespace PosSync.App_Code
 
         public DataTable SelectServer()
         {
-            DataTable result = null;
+            DataTable result = null; 
             try
             {
-                string s = "select * from tbl_Customer";
+                string s = "select * from tbl_Customer where ConRead='False'";
 
                 LocalDataCon.ConString = LocalConn();
                 LocalDataCon.CmdType = CommandType.Text;
@@ -3160,6 +3172,8 @@ namespace PosSync.App_Code
                     this.CreditLimit =Convert.ToDecimal(dtLocal.Rows[i]["CreditLimit"].ToString());
                     this.CustType = dtLocal.Rows[i]["CustType"].ToString();
                     this.Password = dtLocal.Rows[i]["Password"].ToString();
+                    this.Gender = dtLocal.Rows[i]["Gender"].ToString();
+                    this.DateOfBirth = dtLocal.Rows[i]["DateOfBirth"].ToString();
                     this.InsertServer();
                     UpdateCustomerConRead();
                 }
@@ -3185,7 +3199,9 @@ namespace PosSync.App_Code
                     this.Country = dtNotin.Rows[j]["Country"].ToString();
                     this.CreditLimit = Convert.ToDecimal(dtNotin.Rows[j]["CreditLimit"].ToString());
                     this.CustType = dtNotin.Rows[j]["CustType"].ToString();
-                    this.Password = dtLocal.Rows[j]["Password"].ToString();
+                    this.Password = dtNotin.Rows[j]["Password"].ToString();
+                    this.Gender = dtNotin.Rows[j]["Gender"].ToString();
+                    this.DateOfBirth = dtNotin.Rows[j]["DateOfBirth"].ToString();
                     this.InsertLocal();
                 }
             }

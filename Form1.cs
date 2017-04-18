@@ -387,9 +387,6 @@ namespace PosSync
         }
 
 
-
-
-
         public void UpdateSyncDate()
         {
             try
@@ -5563,12 +5560,6 @@ namespace PosSync
 
         }
 
-<<<<<<< HEAD
-      
-=======
-        
-
->>>>>>> origin/master
         #endregion
     }
 }
