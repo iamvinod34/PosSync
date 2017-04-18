@@ -4557,6 +4557,8 @@ namespace PosSync
                             AllMaterTable.CustType = dtserver.Rows[i]["CustType"].ToString();
                             AllMaterTable.TotalDue = dtserver.Rows[i]["TotalDue"].ToString();
                             AllMaterTable.Password= dtserver.Rows[i]["Password"].ToString();
+                            AllMaterTable.Gender = dtserver.Rows[i]["Gender"].ToString();
+                            AllMaterTable.DateOfBirth = dtserver.Rows[i]["DateOfBirth"].ToString();
                             AllMaterTable.InsertLocalCustomter();
                             RunningCount = i;
                             updatetworows();

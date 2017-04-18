@@ -134,8 +134,8 @@ namespace PosSync.App_Code
         public string PhoneDigit { get; internal set; }
         public string PhoneCode { get; internal set; }
         public string PhoneDescription { get; internal set; }
-        public string Gender { get; private set; }
-        public string DateOfBirth { get; private set; }
+        public string Gender { get;  set; }
+        public string DateOfBirth { get;  set; }
 
 
 
@@ -1626,16 +1626,26 @@ namespace PosSync.App_Code
                 spPassword.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spPassword.Value = Password;
 
+                SqlCeParameter spGender = new SqlCeParameter();
+                spGender.ParameterName = "@Gender";
+                spGender.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spGender.Value = Gender;
 
-                string S = "INSERT INTO tbl_Customer(CustomerID,Name1,Name2,Address1,Address2,Address3,POBox,Phone,Fax,Email,City,Region,Country,CreditLimit,CustInt1,CustInt2,CustInt3,CustText1,CustText2,CustText3,CustType,TotalDue,Password) " +
-                    " VALUES(@CustomerID,@Name1,@Name2,@Address1,@Address2,@Address3,@POBox,@Phone,@Fax,@Email,@City,@Region,@Country,@CreditLimit,@CustInt1,@CustInt2,@CustInt3,@CustText1,@CustText2,@CustText3,@CustType,@TotalDue,@Password);";
+                SqlCeParameter spDateOfBirth = new SqlCeParameter();
+                spDateOfBirth.ParameterName = "@DateOfBirth";
+                spDateOfBirth.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spDateOfBirth.Value = DateOfBirth;
+
+
+                string S = "INSERT INTO tbl_Customer(CustomerID,Name1,Name2,Address1,Address2,Address3,POBox,Phone,Fax,Email,City,Region,Country,CreditLimit,CustInt1,CustInt2,CustInt3,CustText1,CustText2,CustText3,CustType,TotalDue,Password,Gender,DateOfBirth,Status) " +
+                    " VALUES(@CustomerID,@Name1,@Name2,@Address1,@Address2,@Address3,@POBox,@Phone,@Fax,@Email,@City,@Region,@Country,@CreditLimit,@CustInt1,@CustInt2,@CustInt3,@CustText1,@CustText2,@CustText3,@CustType,@TotalDue,@Password,@Gender,@DateOfBirth,'True');";
 
                 LocalDataCon.CmdString = S;
                 LocalDataCon.CmdType = CommandType.Text;
                 LocalDataCon.ConString = LocalConn();
 
                 LocalDataCon.InsertRecord(spCustomerID, spName1, spName2, spAddress1, spAddress2, spAddress3, spPOBox, spPhone, spFax, spEmail, spCity, spRegion, spCountry, spCreditLimit, spCustInt1,
-                spCustInt2, spCustInt3, spCustText1, spCustText2, spCustText3, spCustType, spTotalDue,spPassword);
+                spCustInt2, spCustInt3, spCustText1, spCustText2, spCustText3, spCustType, spTotalDue,spPassword,spGender,spDateOfBirth);
             }
             catch (Exception ex)
             {
@@ -3021,34 +3031,46 @@ namespace PosSync.App_Code
                 spPassword.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spPassword.Value = Password;
 
+                SqlCeParameter spGender = new SqlCeParameter();
+                spGender.ParameterName = "@Gender";
+                spGender.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spGender.Value = Gender;
+
+                SqlCeParameter spDateOfBirth = new SqlCeParameter();
+                spDateOfBirth.ParameterName = "@DateOfBirth";
+                spDateOfBirth.SqlDbType = System.Data.SqlDbType.NVarChar;
+                spDateOfBirth.Value = DateOfBirth;
+
+
+
                 bool UResult = this.GetByIdLocalCustomer();
                 string s;
                 if(UResult)
                 {
                     //update
                     s = "update tbl_Customer set  Name1 = @FirstName, Name2 = @LastName, Address1 = @Address, POBox = @POBox," +
-                " Phone = @Phone, Fax = @Fax, Email = @Email, City = @City, Region = @Region, Country = @Country, CreditLimit = @CreditLimit, CustType = @CustType,ConRead='True',Password=@Password where CustomerID = @CustomerID";
+                " Phone = @Phone, Fax = @Fax, Email = @Email, City = @City, Region = @Region, Country = @Country, CreditLimit = @CreditLimit, CustType = @CustType,ConRead='True',Password=@Password,Gender=@Gender,DateOfBirth=@DateOfBirth where CustomerID = @CustomerID";
 
                     LocalDataCon.ConString = LocalConn();
                     LocalDataCon.CmdType = CommandType.Text;
                     LocalDataCon.CmdString = s;
 
                     LocalDataCon.InsertRecord(spCustomerID, spFirstName, spLastName, spAddress, spPOBox, spPhone, spFax, spEmail,
-                        spCity, spRegion, spCountry, spCreditLimit, spCustType,spPassword);
+                        spCity, spRegion, spCountry, spCreditLimit, spCustType,spPassword,spGender,spDateOfBirth);
                 }
                 else
                 {
                     s = "insert into tbl_Customer (CustomerID, Name1, Name2, Address1,  POBox, Phone, Fax, Email , " +
-           " City, Region, Country, CreditLimit,  CustType, Status,ConRead,Password)values(@CustomerID,@FirstName," +
+           " City, Region, Country, CreditLimit,  CustType, Status,ConRead,Password,Gender,DateOfBirth)values(@CustomerID,@FirstName," +
             " @LastName,@Address,@POBox,@Phone,@Fax,@Email,@City,@Region,@Country," +
-            " @CreditLimit,@CustType,@Status,'True',@Password)";
+            " @CreditLimit,@CustType,@Status,'True',@Password,@Gender,@DateOfBirth)";
 
                     LocalDataCon.ConString = LocalConn();
                     LocalDataCon.CmdType = CommandType.Text;
                     LocalDataCon.CmdString = s;
 
                     LocalDataCon.InsertRecord(spCustomerID, spFirstName, spLastName, spAddress, spPOBox, spPhone, spFax, spEmail,
-                        spCity, spRegion, spCountry, spCreditLimit, spCustType, spStatus,spPassword);
+                        spCity, spRegion, spCountry, spCreditLimit, spCustType, spStatus,spPassword,spGender,spDateOfBirth);
                 }
                 
                 result = true;
