@@ -142,7 +142,9 @@ namespace PosSync
 
                 MasterDataSync();
 
-               
+                AllMaterTable.LocationID = LocationID;
+                AllMaterTable.Insert_Local_PI_TimeTable();
+
 
                 timer1.Interval = 120000;
                 timer1.Tick += new EventHandler(timer1_Tick);

@@ -3373,7 +3373,7 @@ namespace PosSync.App_Code
                 spStorageID.Value = StorageID;
 
                 SqlCeParameter spTerminalID = new SqlCeParameter();
-                spTerminalID.ParameterName = "@TerminalID ";
+                spTerminalID.ParameterName = "@TerminalID";
                 spTerminalID.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spTerminalID.Value = TerminalID;
 
@@ -3382,7 +3382,7 @@ namespace PosSync.App_Code
 
                 if(Get_By_Local_PI_TimeTable!=null)
                 {
-                    if (Get_By_Local_PI_TimeTable.Rows.Count > 0)
+                    if (Get_By_Local_PI_TimeTable.Rows.Count == 0)
                     {
                         s = "INSERT INTO tbl_PI_TimeTable (PI_KeyWord,PI_Description,Days,PI_DateTime,LocationID,StorageID,TerminalID,ConRead) VALUES"+
                             "(@PIKeyWord,@PIDescription,@Days,@PIDateTime,@LocationID,@StorageID,@TerminalID,'True')";
@@ -3450,7 +3450,7 @@ namespace PosSync.App_Code
 
                 if (Get_By_Local_PI_TimeTable != null)
                 {
-                    if (Get_By_Local_PI_TimeTable.Rows.Count > 0)
+                    if (Get_By_Local_PI_TimeTable.Rows.Count == 0)
                     {
                         s = "INSERT INTO tbl_PI_TimeTable (PI_KeyWord,PI_Description,Days,PI_DateTime,LocationID,StorageID,TerminalID,ConRead) VALUES" +
                             "(@PIKeyWord,@PIDescription,@Days,@PIDateTime,@LocationID,@StorageID,@TerminalID,'True')";
