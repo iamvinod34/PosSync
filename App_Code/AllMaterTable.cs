@@ -3316,7 +3316,7 @@ namespace PosSync.App_Code
                     if(Get_Select_Server_PI_TimeTable.Rows.Count>0)
                     {
                         //insert or update local table
-                        for (int i = 0; i < Get_Select_Local_PI_TimeTable.Rows.Count; i++)
+                        for (int i = 0; i < Get_Select_Server_PI_TimeTable.Rows.Count; i++)
                         {
                             this.PI_KeyWord = Get_Select_Server_PI_TimeTable.Rows[i]["PI_KeyWord"].ToString();
                             this.PI_Description = Get_Select_Server_PI_TimeTable.Rows[i]["PI_Description"].ToString();

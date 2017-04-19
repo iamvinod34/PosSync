@@ -148,7 +148,7 @@ namespace PosSync
                 timer1.Tick += new EventHandler(timer1_Tick);
                 timer1.Start();
 
-                Customer.Interval = 3600000;
+                Customer.Interval = 1920000;
                 Customer.Tick += new EventHandler(Customer_Tick);
                 Customer.Start();
             }
