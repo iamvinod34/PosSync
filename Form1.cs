@@ -131,14 +131,8 @@ namespace PosSync
                 SysTerminalID = dt_date.Rows[0]["TerminalID"].ToString();
                 CurrentSyncDate = System.DateTime.Today.ToShortDateString();
 
-                //if (MasterSyncDate != CurrentSyncDate)
-                //{
-                //    DeleteTenderDetailArchive();
-                //    DeleteSalesDetailArchive();
-                //    DeleteSalesArchive();
-                //    DeleteSalesRawData();
-                //    UpdateSyncDate();
-                //}
+
+                UsersAllsyc();
 
                 MasterDataSync();
 
@@ -168,6 +162,100 @@ namespace PosSync
                 myLog.WriteEntry("Form Load : " + ex.Message + ex.StackTrace);
             }
 
+        }
+        /// <summary>
+        /// User Page Load Event Sync
+        /// </summary>
+        private void UsersAllsyc()
+        {
+            try
+            {
+                objUsers.LocationID = LocationID;
+                DataTable dtUsers = objUsers.Get_ServerUsers();
+
+                if(dtUsers!=null)
+                {
+                    if(dtUsers.Rows.Count>0)
+                    {
+                        for (int i = 0; i < dtUsers.Rows.Count; i++)
+                        {
+                            objUsers.UserID = Convert.ToInt32(dtUsers.Rows[i]["UserID"].ToString());
+                            objUsers.LocationID = dtUsers.Rows[i]["LocationID"].ToString();
+                            if (dtUsers.Rows[i]["DeleteUserId"].ToString() != "True")
+                            {
+                                objUsers.UserName = dtUsers.Rows[i]["UserName"].ToString();
+                                objUsers.Password = dtUsers.Rows[i]["Password"].ToString();
+                                objUsers.Payment = dtUsers.Rows[i]["Payment"].ToString();
+                                objUsers.ReturnInv = dtUsers.Rows[i]["ReturnInv"].ToString();
+                                objUsers.ReturnNoInv = dtUsers.Rows[i]["ReturnNoInv"].ToString();
+                                objUsers.DeleteInv = dtUsers.Rows[i]["DeleteInv"].ToString();
+                                objUsers.Cash = dtUsers.Rows[i]["Cash"].ToString();
+                                objUsers.CreditCard = dtUsers.Rows[i]["CreditCard"].ToString();
+                                objUsers.DebitCard = dtUsers.Rows[i]["DebitCard"].ToString();
+                                objUsers.OnAccount = dtUsers.Rows[i]["OnAccount"].ToString();
+                                objUsers.Den1 = dtUsers.Rows[i]["Den1"].ToString();
+                                objUsers.Den5 = dtUsers.Rows[i]["Den5"].ToString();
+                                objUsers.Den10 = dtUsers.Rows[i]["Den10"].ToString();
+                                objUsers.Den20 = dtUsers.Rows[i]["Den20"].ToString();
+                                objUsers.Den50 = dtUsers.Rows[i]["Den50"].ToString();
+                                objUsers.Den100 = dtUsers.Rows[i]["Den100"].ToString();
+                                objUsers.Den500 = dtUsers.Rows[i]["Den500"].ToString();
+                                objUsers.HoldInv = dtUsers.Rows[i]["HoldInv"].ToString();
+                                objUsers.unholdInv = dtUsers.Rows[i]["unholdInv"].ToString();
+                                objUsers.Barcode = dtUsers.Rows[i]["Barcode"].ToString();
+                                objUsers.Quantity = dtUsers.Rows[i]["Quantity"].ToString();
+                                objUsers.Inventory = dtUsers.Rows[i]["Inventory"].ToString();
+                                objUsers.POReceive = dtUsers.Rows[i]["POReceive"].ToString();
+                                objUsers.ReturnSupp = dtUsers.Rows[i]["ReturnSupp"].ToString();
+                                objUsers.TransferDisp = dtUsers.Rows[i]["TransferDisp"].ToString();
+                                objUsers.TransferIn = dtUsers.Rows[i]["TransferIn"].ToString();
+                                objUsers.TransferOut = dtUsers.Rows[i]["TransferOut"].ToString();
+                                objUsers.PhyInventory = dtUsers.Rows[i]["PhyInventory"].ToString();
+                                objUsers.StockReport = dtUsers.Rows[i]["StockReport"].ToString();
+                                objUsers.Settingbutt = dtUsers.Rows[i]["Settingbutt"].ToString();
+                                objUsers.PrinterSetup = dtUsers.Rows[i]["PrinterSetup"].ToString();
+                                objUsers.EOD = dtUsers.Rows[i]["EOD"].ToString();
+                                objUsers.FavoritePannel = dtUsers.Rows[i]["FavoritePannel"].ToString();
+                                objUsers.LockUser = dtUsers.Rows[i]["LockUser"].ToString();
+                                objUsers.DeleteItem = dtUsers.Rows[i]["DeleteItem"].ToString();
+                                objUsers.OrderButton = dtUsers.Rows[i]["OrderButton"].ToString();
+                                objUsers.OrderTextBox = dtUsers.Rows[i]["OrderTextBox"].ToString();
+                                objUsers.SampleButton = dtUsers.Rows[i]["SampleButton"].ToString();
+                                objUsers.MaterialMenu = dtUsers.Rows[i]["MaterialMenu"].ToString();
+                                objUsers.ItemCardReportButton = dtUsers.Rows[i]["ItemCardReportButton"].ToString();
+                                objUsers.ProductionOrder = dtUsers.Rows[i]["ProductionOrder"].ToString();
+                                objUsers.Register = dtUsers.Rows[i]["Register"].ToString();
+                                objUsers.TranfterOutToLocationID = dtUsers.Rows[i]["TranfterOutToLocationID"].ToString();
+                                objUsers.Button_Delivery = dtUsers.Rows[i]["Button_Delivery"].ToString();
+
+                                DataTable dtLocalUser = objUsers.Get_By_UserId();
+                                if (dtLocalUser != null)
+                                {
+                                    if (dtLocalUser.Rows.Count > 0)
+                                    {
+                                        objUsers.UpdateUsers_MasterData();
+                                    }
+                                    else
+                                    {
+                                        objUsers.InsertUsers_MasterData();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //true
+                                // delete user
+                                objUsers.DeleteUserId();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
         private void Customer_Tick(object sender, EventArgs e)
