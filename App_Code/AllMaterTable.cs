@@ -112,8 +112,8 @@ namespace PosSync.App_Code
         public string ServerDataBaseName { get; set; }
         public string Security { get; set; }
         public string DominName { get; set; }
-        public string Sales_Comm { get;  set; }
-        public string Produc_Comm { get;  set; }
+        public decimal Sales_Comm { get;  set; }
+        public decimal Produc_Comm { get;  set; }
         public string CountryID { get; set; }
         public string CountryName { get; set; }
         public string RegionID { get; set; }
@@ -542,7 +542,7 @@ namespace PosSync.App_Code
             DataTable server = null;
             try
             {
-                string S = "SELECT * FROM TBL_CUSTOMER";
+                string S = "SELECT * FROM TBL_CUSTOMER Order by Id ASC";
 
                 ServerMyDataConnection.CmdString = S;
                 ServerMyDataConnection.CmdType = CommandType.Text;
@@ -1971,12 +1971,12 @@ namespace PosSync.App_Code
 
                 SqlCeParameter spSalesComm = new SqlCeParameter();
                 spSalesComm.ParameterName = "@SalesComm";
-                spSalesComm.SqlDbType = System.Data.SqlDbType.Decimal;
+                spSalesComm.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spSalesComm.Value = Sales_Comm;
 
                 SqlCeParameter spProducComm = new SqlCeParameter();
                 spProducComm.ParameterName = "@ProducComm";
-                spProducComm.SqlDbType = System.Data.SqlDbType.Decimal;
+                spProducComm.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spProducComm.Value = Produc_Comm;
 
                 string S = "INSERT INTO tbl_Material(MaterialID,MaterialDesc1,MaterialDesc2,MaterialDesc3,ProductURL,CategoryID,SubCategoryID,BaseUOM,Cost,VendorID,CustInt1,CustInt2,CustInt3,CustDate1,CustDate2,CustDate3,CustText1,CustText2,CustText3,UserID,AddDate,UpdDate,Dataid,Sales_Comm,Produc_Comm) " +
@@ -1991,7 +1991,6 @@ namespace PosSync.App_Code
             }
             catch (Exception ex)
             {
-                throw;
             }
             return local;
         }
@@ -2136,13 +2135,13 @@ namespace PosSync.App_Code
                 spTerminalID.SqlDbType = System.Data.SqlDbType.NVarChar;
                 spTerminalID.Value = TerminalID;
 
-                string S = "INSERT INTO tbl_PreferUOM(MaterialID,EAN13,UOM,TerminalID)VALUES(@MaterialID,@EAN13,@UOM,@TerminalID);";
+                string S = "INSERT INTO tbl_PreferUOM(MaterialID,EAN13,UOM)VALUES(@MaterialID,@EAN13,@UOM);";
 
                 LocalDataCon.CmdString = S;
                 LocalDataCon.CmdType = CommandType.Text;
                 LocalDataCon.ConString = LocalConn();
 
-                LocalDataCon.InsertRecord(spMaterialID, spEAN13, spUOM, spTerminalID);
+                LocalDataCon.InsertRecord(spMaterialID, spEAN13, spUOM);
             }
             catch (Exception ex)
             {

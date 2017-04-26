@@ -4843,8 +4843,8 @@ namespace PosSync
                             AllMaterTable.AddDate = dtserver.Rows[i]["AddDate"].ToString();
                             AllMaterTable.UpdDate = dtserver.Rows[i]["UpdDate"].ToString();
                             AllMaterTable.Dataid = dtserver.Rows[i]["Dataid"].ToString();
-                            AllMaterTable.Sales_Comm = dtserver.Rows[i]["Sales_Comm"].ToString();
-                            AllMaterTable.Produc_Comm = dtserver.Rows[i]["Produc_Comm"].ToString();
+                            AllMaterTable.Sales_Comm = Convert.ToDecimal(dtserver.Rows[i]["Sales_Comm"].ToString());
+                            AllMaterTable.Produc_Comm = Convert.ToDecimal(dtserver.Rows[i]["Produc_Comm"].ToString());
                             AllMaterTable.InsertLocalMaterial();
                             RunningCount = i;
                             updatetworows();
@@ -5000,7 +5000,7 @@ namespace PosSync
                             AllMaterTable.MaterialID = dtserver.Rows[i]["MaterialID"].ToString();
                             AllMaterTable.EAN13 = dtserver.Rows[i]["EAN13"].ToString();
                             AllMaterTable.UOM = dtserver.Rows[i]["UOM"].ToString();
-                            AllMaterTable.TerminalID = dtserver.Rows[i]["TerminalID"].ToString();
+                           // AllMaterTable.TerminalID = dtserver.Rows[i]["TerminalID"].ToString();
                             AllMaterTable.InsertLocalPreferUOM();
                             RunningCount = i;
                             updatetworows();
