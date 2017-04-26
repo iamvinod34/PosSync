@@ -522,7 +522,7 @@ namespace PosSync.App_Code
             DataTable local = null;
             try
             {
-                string S = "SELECT * FROM TBL_CUSTOMER";
+                string S = "SELECT * FROM TBL_CUSTOMER ";
 
                 LocalDataCon.CmdString = S;
                 LocalDataCon.CmdType = CommandType.Text;
@@ -542,7 +542,7 @@ namespace PosSync.App_Code
             DataTable server = null;
             try
             {
-                string S = "SELECT * FROM TBL_CUSTOMER";
+                string S = "SELECT * FROM TBL_CUSTOMER Order by ID asc";
 
                 ServerMyDataConnection.CmdString = S;
                 ServerMyDataConnection.CmdType = CommandType.Text;
