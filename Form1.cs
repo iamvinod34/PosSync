@@ -285,8 +285,8 @@ namespace PosSync
             try
             {
                 objMaster.LocationId = LocationID;
-                DataTable dt_users = objMaster.GetUsers_MasterData();
-                InsertUsers_MasterData(dt_users);
+                //DataTable dt_users = objMaster.GetUsers_MasterData();
+                //InsertUsers_MasterData(dt_users);
 
                 DataTable dt_location = objMaster.GetLocation_MasterData();
                 InsertLocation_MasterData(dt_location);
