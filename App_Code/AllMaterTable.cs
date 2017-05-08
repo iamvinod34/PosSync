@@ -3390,7 +3390,7 @@ namespace PosSync.App_Code
                     }
                     else
                     {
-                        s = "UPDATE TBL_PI_TIMETABLE SET PI_Description=@PIDescription,Days=@Days,PI_DateTime=@PIDateTime,StorageID=@StorageID,TerminalID=@TerminalID,ConRead='True' where PI_KeyWord=@PIKeyWord,LocationID=@LocationID";
+                        s = "UPDATE TBL_PI_TIMETABLE SET PI_Description=@PIDescription,Days=@Days,PI_DateTime=@PIDateTime,StorageID=@StorageID,TerminalID=@TerminalID,ConRead='True' where PI_KeyWord=@PIKeyWord and LocationID=@LocationID";
                             
                     }
                 }
@@ -3402,8 +3402,6 @@ namespace PosSync.App_Code
             }
             catch (Exception ex)
             {
-
-                throw;
             }
         }
 
