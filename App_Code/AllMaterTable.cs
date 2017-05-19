@@ -542,11 +542,7 @@ namespace PosSync.App_Code
             DataTable server = null;
             try
             {
-<<<<<<< HEAD
                 string S = "SELECT * FROM TBL_CUSTOMER Order by Id ASC";
-=======
-                string S = "SELECT * FROM TBL_CUSTOMER Order by ID asc";
->>>>>>> 638ebb971ae197c2cb48a3a0c3583fbee529d7eb
 
                 ServerMyDataConnection.CmdString = S;
                 ServerMyDataConnection.CmdType = CommandType.Text;
