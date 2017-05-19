@@ -542,6 +542,10 @@ namespace PosSync.App_Code
             DataTable server = null;
             try
             {
+<<<<<<< HEAD
+=======
+
+>>>>>>> da9ab062b2060c329d106786b7975f98a16ae7c3
                 string S = "SELECT * FROM TBL_CUSTOMER Order by Id ASC";
 
                 ServerMyDataConnection.CmdString = S;
@@ -3389,7 +3393,7 @@ namespace PosSync.App_Code
                     }
                     else
                     {
-                        s = "UPDATE TBL_PI_TIMETABLE SET PI_Description=@PIDescription,Days=@Days,PI_DateTime=@PIDateTime,StorageID=@StorageID,TerminalID=@TerminalID,ConRead='True' where PI_KeyWord=@PIKeyWord,LocationID=@LocationID";
+                        s = "UPDATE TBL_PI_TIMETABLE SET PI_Description=@PIDescription,Days=@Days,PI_DateTime=@PIDateTime,StorageID=@StorageID,TerminalID=@TerminalID,ConRead='True' where PI_KeyWord=@PIKeyWord and LocationID=@LocationID";
                             
                     }
                 }
@@ -3401,8 +3405,6 @@ namespace PosSync.App_Code
             }
             catch (Exception ex)
             {
-
-                throw;
             }
         }
 
