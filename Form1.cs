@@ -227,6 +227,8 @@ namespace PosSync
                                 objUsers.Register = dtUsers.Rows[i]["Register"].ToString();
                                 objUsers.TranfterOutToLocationID = dtUsers.Rows[i]["TranfterOutToLocationID"].ToString();
                                 objUsers.Button_Delivery = dtUsers.Rows[i]["Button_Delivery"].ToString();
+                                objUsers.ProductionOrderRequest= dtUsers.Rows[i]["ProductionOrderRequest"].ToString();
+                                objUsers.ReOrder= dtUsers.Rows[i]["ReOrder"].ToString();
 
                                 DataTable dtLocalUser = objUsers.Get_By_UserId();
                                 if (dtLocalUser != null)

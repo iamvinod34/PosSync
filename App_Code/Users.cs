@@ -100,6 +100,8 @@ namespace PosSync.App_Code
 
 
         public string Dcon { set; get; }
+        public string ProductionOrderRequest { get; internal set; }
+        public string ReOrder { get; internal set; }
 
         #endregion
 
@@ -633,15 +635,75 @@ namespace PosSync.App_Code
                 spDeleteItem.SqlDbType = System.Data.SqlDbType.NChar;
                 spDeleteItem.Value = this.DeleteItem;
 
-                string s = "INSERT INTO TBL_USERS(USERID,USERNAME,PASSWORD,LOCATIONID,PAYMENT,RETURNINV,RETURNNOINV,DELETEINV,CASH,CREDITCARD,DEBITCARD,ONACCOUNT,DEN1,DEN5,DEN10,DEN20,DEN50,DEN100,DEN500,HOLDINV,UNHOLDINV,BARCODE,QUANTITY,INVENTORY,PORECEIVE,RETURNSUPP,TRANSFERDISP,TRANSFERIN,TRANSFEROUT,PHYINVENTORY,STOCKREPORT,SETTINGBUTT,PRINTERSETUP,EOD,FAVORITEPANNEL,LOCKUSER,DELETEITEM)"
-                + " VALUES(@USERID,@USERNAME,@PASSWORD,@LOCATIONID,@PAYMENT,@RETURNINV,@RETURNNOINV,@DELETEINV,@CASH,@CREDITCARD,@DEBITCARD,@ONACCOUNT,@DEN1,@DEN5,@DEN10,@DEN20,@DEN50,@DEN100,@DEN500,@HOLDINV,@UNHOLDINV,@BARCODE,@QUANTITY,@INVENTORY,@PORECEIVE,@RETURNSUPP,@TRANSFERDISP,@TRANSFERIN,@TRANSFEROUT,@PHYINVENTORY,@STOCKREPORT,@SETTINGBUTT,@PRINTERSETUP,@EOD,@FAVORITEPANNEL,@LOCKUSER,@DELETEITEM)";
+                SqlCeParameter spOrderButton = new SqlCeParameter();
+                spOrderButton.ParameterName = "@OrderButton";
+                spOrderButton.SqlDbType = System.Data.SqlDbType.NChar;
+                spOrderButton.Value = this.OrderButton;
+
+                SqlCeParameter spOrderTextBox = new SqlCeParameter();
+                spOrderTextBox.ParameterName = "@OrderTextBox";
+                spOrderTextBox.SqlDbType = System.Data.SqlDbType.NChar;
+                spOrderTextBox.Value = this.OrderTextBox;
+
+                SqlCeParameter spSampleButton = new SqlCeParameter();
+                spSampleButton.ParameterName = "@SampleButton";
+                spSampleButton.SqlDbType = System.Data.SqlDbType.NChar;
+                spSampleButton.Value = this.SampleButton;
+
+                SqlCeParameter spMaterialMenu = new SqlCeParameter();
+                spMaterialMenu.ParameterName = "@MaterialMenu";
+                spMaterialMenu.SqlDbType = System.Data.SqlDbType.NChar;
+                spMaterialMenu.Value = this.MaterialMenu;
+
+                SqlCeParameter spItemCardReportButton = new SqlCeParameter();
+                spItemCardReportButton.ParameterName = "@ItemCardReportButton";
+                spItemCardReportButton.SqlDbType = System.Data.SqlDbType.NChar;
+                spItemCardReportButton.Value = this.ItemCardReportButton;
+
+                SqlCeParameter spProductionOrder = new SqlCeParameter();
+                spProductionOrder.ParameterName = "@ProductionOrder";
+                spProductionOrder.SqlDbType = System.Data.SqlDbType.NChar;
+                spProductionOrder.Value = this.ProductionOrder;
+
+                SqlCeParameter spRegister = new SqlCeParameter();
+                spRegister.ParameterName = "@Register";
+                spRegister.SqlDbType = System.Data.SqlDbType.NChar;
+                spRegister.Value = this.Register;
+
+                SqlCeParameter spTranfterOutToLocationID = new SqlCeParameter();
+                spTranfterOutToLocationID.ParameterName = "@TranfterOutToLocationID";
+                spTranfterOutToLocationID.SqlDbType = System.Data.SqlDbType.NChar;
+                spTranfterOutToLocationID.Value = this.TranfterOutToLocationID;
+
+                SqlCeParameter spButton_Delivery = new SqlCeParameter();
+                spButton_Delivery.ParameterName = "@Button_Delivery";
+                spButton_Delivery.SqlDbType = System.Data.SqlDbType.NChar;
+                spButton_Delivery.Value = this.Button_Delivery;
+
+                SqlCeParameter spProductionORderRequest = new SqlCeParameter();
+                spProductionORderRequest.ParameterName = "@ProductionOrderRequest";
+                spProductionORderRequest.SqlDbType = System.Data.SqlDbType.NChar;
+                spProductionORderRequest.Value = this.ProductionOrderRequest;
+
+                SqlCeParameter spReOrder = new SqlCeParameter();
+                spReOrder.ParameterName = "@ReOrder";
+                spReOrder.SqlDbType = System.Data.SqlDbType.NChar;
+                spReOrder.Value = this.ReOrder;
+
+                string s = "INSERT INTO TBL_USERS(USERID,USERNAME,PASSWORD,LOCATIONID,PAYMENT,RETURNINV,RETURNNOINV,DELETEINV,CASH,CREDITCARD,DEBITCARD,ONACCOUNT,DEN1,DEN5,DEN10,DEN20,DEN50,DEN100,DEN500,HOLDINV,UNHOLDINV,BARCODE,QUANTITY,INVENTORY,PORECEIVE,RETURNSUPP,TRANSFERDISP,TRANSFERIN,TRANSFEROUT,PHYINVENTORY,STOCKREPORT,SETTINGBUTT,PRINTERSETUP,EOD,FAVORITEPANNEL,LOCKUSER,DELETEITEM,OrderButton,OrderTextBox,SampleButton,MaterialMenu,ItemCardReportButton,ProductionOrder,Register,TranfterOutToLocationID,Button_Delivery, " +
+                        " ProductionOrderRequest,ReOrder)"
+                + " VALUES(@USERID,@USERNAME,@PASSWORD,@LOCATIONID,@PAYMENT,@RETURNINV,@RETURNNOINV,@DELETEINV,@CASH,@CREDITCARD,@DEBITCARD,@ONACCOUNT,@DEN1,@DEN5,@DEN10,@DEN20,@DEN50,@DEN100,@DEN500,@HOLDINV,@UNHOLDINV,@BARCODE,@QUANTITY,@INVENTORY,@PORECEIVE,@RETURNSUPP,@TRANSFERDISP,@TRANSFERIN,@TRANSFEROUT,@PHYINVENTORY,@STOCKREPORT,@SETTINGBUTT,@PRINTERSETUP,@EOD,@FAVORITEPANNEL,@LOCKUSER,@DELETEITEM, " +
+                              " @OrderButton,@OrderTextBox,@SampleButton,@MaterialMenu,@ItemCardReportButton,@ProductionOrder, " +
+                              " @Register,@TranfterOutToLocationID,@Button_Delivery,@ProductionOrderRequest,@ReOrder)";
 
                 objDB.ConString = ServerConn.LocalConnection();
                 objDB.CmdType = CommandType.Text;
                 objDB.CmdString = s;
                 objDB.InsertRecord(spUserID, spUserName, spPassword, spLocationID, spPayment, spReturnInv, spReturnNoInv, spDeleteInv, spCash, spCreditCard, spDebitCard,
                     spOnAccount, spDen1, spDen5, spDen10, spDen20, spDen50, spDen100, spDen500, spHoldInv, spunholdInv, spBarcode, spQuantity, spInventory, spPOReceive, spReturnSupp, spTransferDisp,
-                    spTransferIn, spTransferOut, spPhyInventory, spStockReport, spSettingbutt, spPrinterSetup, spEOD, spFavoritePannel, spLockUser, spDeleteItem);
+                    spTransferIn, spTransferOut, spPhyInventory, spStockReport, spSettingbutt, spPrinterSetup, spEOD, spFavoritePannel, spLockUser, spDeleteItem, spQuantity,
+                    spOrderButton, spOrderTextBox, spSampleButton, spMaterialMenu, spItemCardReportButton, spProductionOrder, spRegister, spTranfterOutToLocationID,
+                    spButton_Delivery, spProductionORderRequest, spReOrder);
 
             }
             catch (Exception ex)
@@ -886,13 +948,22 @@ namespace PosSync.App_Code
                 spButton_Delivery.SqlDbType = System.Data.SqlDbType.NChar;
                 spButton_Delivery.Value = this.Button_Delivery;
 
+                SqlCeParameter spProductionORderRequest = new SqlCeParameter();
+                spProductionORderRequest.ParameterName = "@ProductionOrderRequest";
+                spProductionORderRequest.SqlDbType = System.Data.SqlDbType.NChar;
+                spProductionORderRequest.Value = this.ProductionOrderRequest;
+
+                SqlCeParameter spReOrder = new SqlCeParameter();
+                spReOrder.ParameterName = "@ReOrder";
+                spReOrder.SqlDbType = System.Data.SqlDbType.NChar;
+                spReOrder.Value = this.ReOrder;
 
                 string s = "UPDATE TBL_USERS SET UserName=@UserName,PASSWORD=@PASSWORD,LOCATIONID=@LOCATIONID,PAYMENT=@PAYMENT,RETURNINV=@RETURNINV,RETURNNOINV=@RETURNNOINV,DELETEINV=@DELETEINV,"
                 + "CASH=@CASH,CREDITCARD=@CREDITCARD,DEBITCARD=@DEBITCARD,ONACCOUNT=@ONACCOUNT,DEN1=@DEN1,DEN5=@DEN5,DEN10=@DEN10,DEN20=@DEN20,DEN50=@DEN50,DEN100=@DEN100,DEN500=@DEN500,HOLDINV=@HOLDINV,UNHOLDINV=@UNHOLDINV,"
                 + " BARCODE=@BARCODE,QUANTITY=@QUANTITY,INVENTORY=@INVENTORY,PORECEIVE=@PORECEIVE,RETURNSUPP=@RETURNSUPP,TRANSFERDISP=@TRANSFERDISP,TRANSFERIN=@TRANSFERIN,TRANSFEROUT=@TRANSFEROUT,PHYINVENTORY=@PHYINVENTORY,STOCKREPORT=@STOCKREPORT,SETTINGBUTT=@SETTINGBUTT,"
                 + " PRINTERSETUP=@PRINTERSETUP,EOD=@EOD,FAVORITEPANNEL=@FAVORITEPANNEL,LOCKUSER=@LOCKUSER,DELETEITEM=@DELETEITEM,"+
                 " OrderButton=@OrderButton,OrderTextBox=@OrderTextBox,SampleButton=@SampleButton,MaterialMenu=@MaterialMenu,ItemCardReportButton=@ItemCardReportButton," +
-                " ProductionOrder=@ProductionOrder,Register=@Register,TranfterOutToLocationID=@TranfterOutToLocationID,Button_Delivery=@Button_Delivery WHERE UserId=@UserId and LocationID=@LocationID";
+                " ProductionOrder=@ProductionOrder,Register=@Register,TranfterOutToLocationID=@TranfterOutToLocationID,Button_Delivery=@Button_Delivery,ProductionOrderRequest=@ProductionOrderRequest,ReOrder=@ReOrder WHERE UserId=@UserId and LocationID=@LocationID";
 
                 objDB.ConString = ServerConn.LocalConnection();
                 objDB.CmdType = CommandType.Text;
@@ -900,7 +971,7 @@ namespace PosSync.App_Code
                 objDB.InsertRecord(spUserName, spPassword, spLocationID, spPayment, spReturnInv, spReturnNoInv, spDeleteInv, spCash, spCreditCard, spDebitCard,
                     spOnAccount, spDen1, spDen5, spDen10, spDen20, spDen50, spDen100, spDen500, spHoldInv, spunholdInv, spBarcode, spQuantity, spInventory, spPOReceive, spReturnSupp, spTransferDisp,
                     spTransferIn, spTransferOut, spPhyInventory, spStockReport, spSettingbutt, spPrinterSetup, spEOD, spFavoritePannel, spLockUser, spDeleteItem,spUserID,
-                    spOrderButton, spOrderTextBox, spSampleButton, spMaterialMenu, spItemCardReportButton, spProductionOrder, spRegister, spTranfterOutToLocationID, spButton_Delivery);
+                    spOrderButton, spOrderTextBox, spSampleButton, spMaterialMenu, spItemCardReportButton, spProductionOrder, spRegister, spTranfterOutToLocationID, spButton_Delivery, spProductionORderRequest, spReOrder);
 
             }
             catch (Exception ex)
