@@ -229,6 +229,7 @@ namespace PosSync
                                 objUsers.Button_Delivery = dtUsers.Rows[i]["Button_Delivery"].ToString();
                                 objUsers.ProductionOrderRequest= dtUsers.Rows[i]["ProductionOrderRequest"].ToString();
                                 objUsers.ReOrder= dtUsers.Rows[i]["ReOrder"].ToString();
+                                objUsers.EodStock = dtUsers.Rows[i]["EodStock"].ToString();
 
                                 DataTable dtLocalUser = objUsers.Get_By_UserId();
                                 if (dtLocalUser != null)
