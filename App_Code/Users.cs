@@ -103,6 +103,7 @@ namespace PosSync.App_Code
         public string ProductionOrderRequest { get; internal set; }
         public string ReOrder { get; internal set; }
         public string EodStock { get; internal set; }
+        public string UserInsert { get;  set; }
 
         #endregion
 
@@ -970,21 +971,42 @@ namespace PosSync.App_Code
                 spEodStock.SqlDbType = System.Data.SqlDbType.NChar;
                 spEodStock.Value = this.EodStock;
 
-                string s = "UPDATE TBL_USERS SET UserName=@UserName,PASSWORD=@PASSWORD,LOCATIONID=@LOCATIONID,PAYMENT=@PAYMENT,RETURNINV=@RETURNINV,RETURNNOINV=@RETURNNOINV,DELETEINV=@DELETEINV,"
-                + "CASH=@CASH,CREDITCARD=@CREDITCARD,DEBITCARD=@DEBITCARD,ONACCOUNT=@ONACCOUNT,DEN1=@DEN1,DEN5=@DEN5,DEN10=@DEN10,DEN20=@DEN20,DEN50=@DEN50,DEN100=@DEN100,DEN500=@DEN500,HOLDINV=@HOLDINV,UNHOLDINV=@UNHOLDINV,"
-                + " BARCODE=@BARCODE,QUANTITY=@QUANTITY,INVENTORY=@INVENTORY,PORECEIVE=@PORECEIVE,RETURNSUPP=@RETURNSUPP,TRANSFERDISP=@TRANSFERDISP,TRANSFERIN=@TRANSFERIN,TRANSFEROUT=@TRANSFEROUT,PHYINVENTORY=@PHYINVENTORY,STOCKREPORT=@STOCKREPORT,SETTINGBUTT=@SETTINGBUTT,"
-                + " PRINTERSETUP=@PRINTERSETUP,EOD=@EOD,FAVORITEPANNEL=@FAVORITEPANNEL,LOCKUSER=@LOCKUSER,DELETEITEM=@DELETEITEM,"+
-                " OrderButton=@OrderButton,OrderTextBox=@OrderTextBox,SampleButton=@SampleButton,MaterialMenu=@MaterialMenu,ItemCardReportButton=@ItemCardReportButton," +
-                " ProductionOrder=@ProductionOrder,Register=@Register,TranfterOutToLocationID=@TranfterOutToLocationID,Button_Delivery=@Button_Delivery,ProductionOrderRequest=@ProductionOrderRequest,ReOrder=@ReOrder,"+
-                " EodStock=@EodStock WHERE UserId=@UserId and LocationID=@LocationID";
+                if(UserInsert=="Insert")
+                {
+                    string s = "INSERT INTO TBL_USERS(USERID,USERNAME,PASSWORD,LOCATIONID,PAYMENT,RETURNINV,RETURNNOINV,DELETEINV,CASH,CREDITCARD,DEBITCARD,ONACCOUNT,DEN1,DEN5,DEN10,DEN20,DEN50,DEN100,DEN500,HOLDINV,UNHOLDINV,BARCODE,QUANTITY,INVENTORY,PORECEIVE,RETURNSUPP,TRANSFERDISP,TRANSFERIN,TRANSFEROUT,PHYINVENTORY,STOCKREPORT,SETTINGBUTT,PRINTERSETUP,EOD,FAVORITEPANNEL,LOCKUSER,DELETEITEM,OrderButton,OrderTextBox,SampleButton,MaterialMenu,ItemCardReportButton,ProductionOrder,Register,TranfterOutToLocationID,Button_Delivery, " +
+                        " ProductionOrderRequest,ReOrder,EodStock)"
+                + " VALUES(@USERID,@USERNAME,@PASSWORD,@LOCATIONID,@PAYMENT,@RETURNINV,@RETURNNOINV,@DELETEINV,@CASH,@CREDITCARD,@DEBITCARD,@ONACCOUNT,@DEN1,@DEN5,@DEN10,@DEN20,@DEN50,@DEN100,@DEN500,@HOLDINV,@UNHOLDINV,@BARCODE,@QUANTITY,@INVENTORY,@PORECEIVE,@RETURNSUPP,@TRANSFERDISP,@TRANSFERIN,@TRANSFEROUT,@PHYINVENTORY,@STOCKREPORT,@SETTINGBUTT,@PRINTERSETUP,@EOD,@FAVORITEPANNEL,@LOCKUSER,@DELETEITEM, " +
+                              " @OrderButton,@OrderTextBox,@SampleButton,@MaterialMenu,@ItemCardReportButton,@ProductionOrder, " +
+                              " @Register,@TranfterOutToLocationID,@Button_Delivery,@ProductionOrderRequest,@ReOrder,@EodStock)";
 
-                objDB.ConString = ServerConn.LocalConnection();
-                objDB.CmdType = CommandType.Text;
-                objDB.CmdString = s;
-                objDB.InsertRecord(spUserName, spPassword, spLocationID, spPayment, spReturnInv, spReturnNoInv, spDeleteInv, spCash, spCreditCard, spDebitCard,
-                    spOnAccount, spDen1, spDen5, spDen10, spDen20, spDen50, spDen100, spDen500, spHoldInv, spunholdInv, spBarcode, spQuantity, spInventory, spPOReceive, spReturnSupp, spTransferDisp,
-                    spTransferIn, spTransferOut, spPhyInventory, spStockReport, spSettingbutt, spPrinterSetup, spEOD, spFavoritePannel, spLockUser, spDeleteItem,spUserID,
-                    spOrderButton, spOrderTextBox, spSampleButton, spMaterialMenu, spItemCardReportButton, spProductionOrder, spRegister, spTranfterOutToLocationID, spButton_Delivery, spProductionORderRequest, spReOrder,spEodStock);
+                    objDB.ConString = ServerConn.LocalConnection();
+                    objDB.CmdType = CommandType.Text;
+                    objDB.CmdString = s;
+                    UserInsert = string.Empty;
+                }
+                else
+                {
+                    string s = "UPDATE TBL_USERS SET UserName=@UserName,PASSWORD=@PASSWORD,LOCATIONID=@LOCATIONID,PAYMENT=@PAYMENT,RETURNINV=@RETURNINV,RETURNNOINV=@RETURNNOINV,DELETEINV=@DELETEINV,"
+               + "CASH=@CASH,CREDITCARD=@CREDITCARD,DEBITCARD=@DEBITCARD,ONACCOUNT=@ONACCOUNT,DEN1=@DEN1,DEN5=@DEN5,DEN10=@DEN10,DEN20=@DEN20,DEN50=@DEN50,DEN100=@DEN100,DEN500=@DEN500,HOLDINV=@HOLDINV,UNHOLDINV=@UNHOLDINV,"
+               + " BARCODE=@BARCODE,QUANTITY=@QUANTITY,INVENTORY=@INVENTORY,PORECEIVE=@PORECEIVE,RETURNSUPP=@RETURNSUPP,TRANSFERDISP=@TRANSFERDISP,TRANSFERIN=@TRANSFERIN,TRANSFEROUT=@TRANSFEROUT,PHYINVENTORY=@PHYINVENTORY,STOCKREPORT=@STOCKREPORT,SETTINGBUTT=@SETTINGBUTT,"
+               + " PRINTERSETUP=@PRINTERSETUP,EOD=@EOD,FAVORITEPANNEL=@FAVORITEPANNEL,LOCKUSER=@LOCKUSER,DELETEITEM=@DELETEITEM," +
+               " OrderButton=@OrderButton,OrderTextBox=@OrderTextBox,SampleButton=@SampleButton,MaterialMenu=@MaterialMenu,ItemCardReportButton=@ItemCardReportButton," +
+               " ProductionOrder=@ProductionOrder,Register=@Register,TranfterOutToLocationID=@TranfterOutToLocationID,Button_Delivery=@Button_Delivery,ProductionOrderRequest=@ProductionOrderRequest,ReOrder=@ReOrder," +
+               " EodStock=@EodStock WHERE UserId=@UserId and LocationID=@LocationID";
+
+                    objDB.ConString = ServerConn.LocalConnection();
+                    objDB.CmdType = CommandType.Text;
+                    objDB.CmdString = s;
+                    objDB.InsertRecord(spUserName, spPassword, spLocationID, spPayment, spReturnInv, spReturnNoInv, spDeleteInv, spCash, spCreditCard, spDebitCard,
+                        spOnAccount, spDen1, spDen5, spDen10, spDen20, spDen50, spDen100, spDen500, spHoldInv, spunholdInv, spBarcode, spQuantity, spInventory, spPOReceive, spReturnSupp, spTransferDisp,
+                        spTransferIn, spTransferOut, spPhyInventory, spStockReport, spSettingbutt, spPrinterSetup, spEOD, spFavoritePannel, spLockUser, spDeleteItem, spUserID,
+                        spOrderButton, spOrderTextBox, spSampleButton, spMaterialMenu, spItemCardReportButton, spProductionOrder, spRegister, spTranfterOutToLocationID, spButton_Delivery,
+                        spProductionORderRequest, spReOrder, spEodStock);
+
+
+                }
+
+
 
             }
             catch (Exception ex)

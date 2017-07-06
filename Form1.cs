@@ -240,7 +240,8 @@ namespace PosSync
                                     }
                                     else
                                     {
-                                        objUsers.InsertUsers_MasterData();
+                                        objUsers.UserInsert = "Insert";
+                                        objUsers.UpdateUsers_MasterData();
                                     }
                                 }
                             }

@@ -3255,7 +3255,7 @@ namespace PosSync.App_Code
             catch (Exception ex)
             {
 
-                throw;
+               
             }
             return result;
         }
@@ -3281,7 +3281,7 @@ namespace PosSync.App_Code
             catch (Exception ex)
             {
 
-                throw;
+              
             }
             return result;
         }
